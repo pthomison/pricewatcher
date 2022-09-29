@@ -16,3 +16,8 @@ test:
 
 image:
 	docker build . -t pricewatcher:latest
+
+NEXT_TAG=$(shell exoskeleton rev -i $(shell git tag --list | tail -n 1))
+release:
+	git tag $(NEXT_TAG)
+	git push origin $(NEXT_TAG)
