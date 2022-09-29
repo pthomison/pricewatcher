@@ -1,0 +1,19 @@
+apiVersion: v1
+entries:
+  pricewatcher:
+  - apiVersion: v2
+    appVersion: 0.0.1
+    created: "2022-09-29T23:27:58.784122577Z"
+    description: A crypto token price-tracker using CoinGhecko APIs
+    digest: a4c686a002399bcb56897a14ab1fc1a6d295bcd549c3e52a12c2695a6a5cf1a0
+    maintainers:
+    - email: tbd@tbd.com
+      name: Patrick Thomison
+    name: pricewatcher
+    sources:
+    - https://github.com/pthomison/pricewatcher
+    type: application
+    urls:
+    - https://github.com/pthomison/pricewatcher/releases/download/pricewatcher-0.0.5/pricewatcher-0.0.5.tgz
+    version: 0.0.5
+generated: "2022-09-29T23:27:58.784129178Z"
