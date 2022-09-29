@@ -18,7 +18,7 @@ spec:
       containers:
       - 
         name: pricewatcher
-        image: pthomison/pricewatcher:v0.5.2
+        image: pthomison/pricewatcher:{{ .Values.image.tag }}
         # args:
         # - --cert-dir=/tmp
         # - --secure-port=4443
