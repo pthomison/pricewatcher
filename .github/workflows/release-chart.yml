@@ -5,6 +5,9 @@ on:
     tags:
       - 'v*.*.*'
 
+    branch:
+      - 'main'
+
 jobs:
   release_chart:
     runs-on: ubuntu-latest
