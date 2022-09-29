@@ -37,4 +37,6 @@ jobs:
       with:
         platforms: linux/amd64,linux/arm64
         push: true
-        tags: "${{github.repository}}:${{env.X_GIT_DESCRIBE}}"
+        tags: |
+          ${{github.repository}}:${{env.X_GIT_DESCRIBE}},
+          ${{github.repository}}:${{env.X_GIT_HASH}}
