@@ -1,12 +1,8 @@
 name: Release Chart
 
-on:  
+on:
   push:
-    tags:
-      - 'v*.*.*'
-
-    branch:
-      - 'main'
+    branches: [ main ]
 
 jobs:
   release_chart:
