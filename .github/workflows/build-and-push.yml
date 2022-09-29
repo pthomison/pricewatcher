@@ -40,4 +40,4 @@ jobs:
       with:
         platforms: linux/amd64,linux/arm64
         push: true
-        tags: "$GITHUB_REPOSITORY:${{env.X_GIT_DESCRIBE}}"
+        tags: "{{env.GITHUB_REPOSITORY}}:${{env.X_GIT_DESCRIBE}}"
