@@ -27,7 +27,7 @@ jobs:
       run: echo "X_GIT_DESCRIBE=$(git describe --tags)" >> $GITHUB_ENV
 
     - name: debug
-      run: echo "${{env.GITHUB_REPOSITORY}}:${{env.X_GIT_DESCRIBE}}"
+      run: env
 
     - name: Login to DockerHub
       uses: docker/login-action@v1 
