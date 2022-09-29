@@ -1,4 +1,4 @@
-project_name: exoskeleton
+project_name: pricewatcher
 
 builds:
   - env:
