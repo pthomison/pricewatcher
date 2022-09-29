@@ -22,9 +22,10 @@ brews:
   - tap:
       owner: pthomison
       name: homebrew-tools
-
+      
 nfpms:
   - 
+    maintainer: pthomison@tbd.com
     formats:
       - apk
       - deb
