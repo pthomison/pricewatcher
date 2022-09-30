@@ -3,6 +3,21 @@ entries:
   pricewatcher:
   - apiVersion: v2
     appVersion: 0.0.1
+    created: "2022-09-30T16:50:12.859929808Z"
+    description: A crypto token price-tracker using CoinGhecko APIs
+    digest: 24689caa95110984efa2c3ea6faa70d3f2ec5fb0938758536011678671e5d47f
+    maintainers:
+    - email: tbd@tbd.com
+      name: Patrick Thomison
+    name: pricewatcher
+    sources:
+    - https://github.com/pthomison/pricewatcher
+    type: application
+    urls:
+    - https://github.com/pthomison/pricewatcher/releases/download/helm-chart-0.0.8/pricewatcher-0.0.8.tgz
+    version: 0.0.8
+  - apiVersion: v2
+    appVersion: 0.0.1
     created: "2022-09-30T16:47:11.162967287Z"
     description: A crypto token price-tracker using CoinGhecko APIs
     digest: 2fefaa3bf24d078d7028c50ac0c77d51d50020a44e6e904c53c11542f3de8523
@@ -46,4 +61,4 @@ entries:
     urls:
     - https://github.com/pthomison/pricewatcher/releases/download/pricewatcher-0.0.5/pricewatcher-0.0.5.tgz
     version: 0.0.5
-generated: "2022-09-30T16:47:11.162979087Z"
+generated: "2022-09-30T16:50:12.859949808Z"
