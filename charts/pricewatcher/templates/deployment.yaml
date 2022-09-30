@@ -36,6 +36,6 @@ spec:
         - name: shared-data
           mountPath: /data
 
-  volumes:
-  - name: shared-data
-    emptyDir: {}
+      volumes:
+      - name: shared-data
+        emptyDir: {}
