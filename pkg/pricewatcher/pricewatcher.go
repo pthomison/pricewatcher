@@ -23,17 +23,19 @@ const (
 type Args struct {
 	Coin     string
 	Currency string
+	DBFile   string
 }
 
 func RegisterFlags(cmd *cobra.Command, cmdArgs *Args) {
 	cmd.PersistentFlags().StringVarP(&cmdArgs.Coin, "coin", "", "ethereum", "coin to price")
 	cmd.PersistentFlags().StringVarP(&cmdArgs.Currency, "currency", "", "usd", "currency to price in")
+	cmd.PersistentFlags().StringVarP(&cmdArgs.DBFile, "dbfile", "", "pricewatcher.gorm", "location for database file")
 }
 
 func Run(args *Args, output io.Writer) {
 	cg := newCGClient()
 	dbc := &sqlite.SQLiteClient{
-		SQLiteFile: "pricewatcher.gorm",
+		SQLiteFile: args.DBFile,
 	}
 
 	dbc.Connect(&gorm.Config{})
