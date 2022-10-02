@@ -14,14 +14,3 @@ type TickData struct {
 	Currency  string
 	Timestamp time.Time
 }
-
-// func (t *TickData) Persist(dbc dbutils.DBClient) {
-// 	td := &TickData{
-// 		Price:     price,
-// 		Coin:      coin,
-// 		Currency:  currency,
-// 		Timestamp: time.Now(),
-// 	}
-
-// 	return td
-// }

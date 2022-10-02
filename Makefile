@@ -3,6 +3,9 @@ build:
 
 clean:
 	rm -rf ./dist
+	rm pricewatcher.gorm
+	rm pricewatcher.gorm-shm
+	rm pricewatcher.gorm-wal
 
 tidy:
 	go fmt ./...
