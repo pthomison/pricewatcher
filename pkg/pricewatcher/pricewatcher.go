@@ -46,10 +46,10 @@ func Run(args *Args, output io.Writer) {
 		price := getPrice(cg, args)
 
 		td := &TickData{
-			Price:     price,
-			Coin:      args.Coin,
-			Currency:  args.Currency,
-			Timestamp: time.Now(),
+			Price:         price,
+			Coin:          args.Coin,
+			Currency:      args.Currency,
+			UnixTimestamp: time.Now().Unix(),
 		}
 
 		arrTD := []*TickData{td}
