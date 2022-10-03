@@ -15,23 +15,52 @@ spec:
         k8s-app: pricewatcher
       name: pricewatcher
     spec:
-      containers:
-      - 
-        name: pricewatcher
-        image: pthomison/pricewatcher:{{ .Values.image.tag }}
+      initContainers:
+      - name: init-litestream
+        image: {{ .Values.litestream.image.name }}:{{ .Values.litestream.image.tag }}
         args:
-          - --dbfile=/data/pricewatcher.db
+        - 'restore'
+        - '-if-db-not-exists'
+        - '-if-replica-exists'
+        - '-v'
+        - -o 
+        - {{ .Values.dbLocation }}
+        - {{ .Values.s3Bucket }}
+        env:
+        {{- range $key, $value := .Values.envVarsFromSecret }}
+        - name: {{ $key }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ $value.secretKeyRef | quote }}
+              key: {{ $value.key | quote }}
+        {{- end }}
         volumeMounts:
         - name: shared-data
           mountPath: /data
 
-      - 
-        name: litestream
-        image: litestream/litestream:0.3.9
+      containers:
+      - name: pricewatcher
+        image: pthomison/pricewatcher:{{ .Values.image.tag }}
         args:
-          - replicate
-          - /data/pricewatcher.db
-          - s3://litestream-pricewatcher-backup
+        - --dbfile={{ .Values.dbLocation }}
+        volumeMounts:
+        - name: shared-data
+          mountPath: /data
+
+      - name: litestream
+        image: {{ .Values.litestream.image.name }}:{{ .Values.litestream.image.tag }}
+        args:
+        - replicate
+        - {{ .Values.dbLocation }}
+        - {{ .Values.s3Bucket }}
+        env:
+        {{- range $key, $value := .Values.envVarsFromSecret }}
+        - name: {{ $key }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ $value.secretKeyRef | quote }}
+              key: {{ $value.key | quote }}
+        {{- end }}
         volumeMounts:
         - name: shared-data
           mountPath: /data

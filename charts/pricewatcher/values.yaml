@@ -1,2 +1,12 @@
 image:
-  tag: v0.0.21
+  tag: v0.0.22
+
+litestream:
+  image: 
+    name: "litestream/litestream"
+    tag: "0.3.9"
+
+envVarsFromSecret: {}
+
+dbLocation: "/data/pricewatcher.db"
+s3Bucket: "s3://litestream-pricewatcher-backup"
