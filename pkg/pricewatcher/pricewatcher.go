@@ -3,14 +3,12 @@ package pricewatcher
 import (
 	"fmt"
 	"io"
-	"net/http"
 	"time"
 
 	"github.com/pthomison/dbutils"
 	"github.com/pthomison/dbutils/sqlite"
-	"github.com/pthomison/errcheck"
+	"github.com/pthomison/pricewatcher/pkg/coinbase"
 	"github.com/spf13/cobra"
-	coingecko "github.com/superoo7/go-gecko/v3"
 	"gorm.io/gorm"
 )
 
@@ -21,64 +19,41 @@ const (
 )
 
 type Args struct {
-	Coin     string
-	Currency string
-	DBFile   string
+	DBFile string
 }
 
 func RegisterFlags(cmd *cobra.Command, cmdArgs *Args) {
-	cmd.PersistentFlags().StringVarP(&cmdArgs.Coin, "coin", "", "ethereum", "coin to price")
-	cmd.PersistentFlags().StringVarP(&cmdArgs.Currency, "currency", "", "usd", "currency to price in")
-	cmd.PersistentFlags().StringVarP(&cmdArgs.DBFile, "dbfile", "", "pricewatcher.gorm", "location for database file")
+	cmd.PersistentFlags().StringVarP(&cmdArgs.DBFile, "dbfile", "", "pricewatcher.sqlite.db", "location for database file")
 }
 
 func Run(args *Args, output io.Writer) {
-	cg := newCGClient()
 	dbc := &sqlite.SQLiteClient{
 		SQLiteFile: args.DBFile,
 	}
 
 	dbc.Connect(&gorm.Config{})
 
-	dbc.DB().AutoMigrate(&TickData{})
+	dbc.DB().AutoMigrate(&CoinbaseBuyPrice{})
+	dbc.DB().AutoMigrate(&CoinbaseSellPrice{})
+	dbc.DB().AutoMigrate(&CoinbaseSpotPrice{})
 
 	for {
-		price := getPrice(cg, args)
+		buyPrice := &CoinbaseBuyPrice{}
+		sellPrice := &CoinbaseSellPrice{}
+		spotPrice := &CoinbaseSpotPrice{}
 
-		td := &TickData{
-			Price:         price,
-			Coin:          args.Coin,
-			Currency:      args.Currency,
-			UnixTimestamp: time.Now().Unix(),
-		}
+		buyPrice.Consume(coinbase.GetEthBuyPrice())
+		sellPrice.Consume(coinbase.GetEthSellPrice())
+		spotPrice.Consume(coinbase.GetEthSpotPrice())
 
-		arrTD := []*TickData{td}
+		dbutils.Create(dbc, []*CoinbaseBuyPrice{buyPrice})
+		dbutils.Create(dbc, []*CoinbaseSellPrice{sellPrice})
+		dbutils.Create(dbc, []*CoinbaseSpotPrice{spotPrice})
 
-		dbutils.Create(dbc, arrTD)
-
-		fmt.Fprintf(output, "%+v\n", td)
+		fmt.Fprintf(output, "%+v\n", buyPrice)
+		fmt.Fprintf(output, "%+v\n", sellPrice)
+		fmt.Fprintf(output, "%+v\n", spotPrice)
 
 		time.Sleep(SleepTime)
 	}
-}
-
-func newCGClient() *coingecko.Client {
-	httpClient := &http.Client{
-		Timeout: SleepTime,
-	}
-	CG := coingecko.NewClient(httpClient)
-
-	return CG
-}
-
-func getPrice(cg *coingecko.Client, args *Args) float32 {
-	ids := []string{args.Coin}
-	vc := []string{args.Currency}
-
-	sp, err := cg.SimplePrice(ids, vc)
-	errcheck.Check(err)
-
-	price := (*sp)[args.Coin][args.Currency]
-
-	return price
 }
