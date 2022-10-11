@@ -67,4 +67,5 @@ spec:
 
       volumes:
       - name: shared-data
-        emptyDir: {}
+        persistentVolumeClaim:
+          claimName: pricewatcher-durable

@@ -1,10 +1,10 @@
 ---
 apiVersion: v2
 type: application
-appVersion: "0.0.1"
-version: 0.0.9
+appVersion: "v0.0.23"
+version: 0.0.10
 name: pricewatcher
-description: A crypto token price-tracker using CoinGhecko APIs
+description: A crypto token price-tracker using Coinbase APIs
 sources:
   - https://github.com/pthomison/pricewatcher
   
