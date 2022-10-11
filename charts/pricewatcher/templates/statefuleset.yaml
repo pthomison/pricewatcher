@@ -1,10 +1,11 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: pricewatcher
   labels:
     k8s-app: pricewatcher
 spec:
+  serviceName: "pricewatcher"
   replicas: 1
   selector:
     matchLabels:
@@ -65,7 +66,12 @@ spec:
         - name: shared-data
           mountPath: /data
 
-      volumes:
-      - name: shared-data
-        persistentVolumeClaim:
-          claimName: pricewatcher-durable
+  volumeClaimTemplates:
+  - metadata:
+      name: shared-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "local-path"
+      resources:
+        requests:
+          storage: 5Gi

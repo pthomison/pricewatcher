@@ -2,7 +2,7 @@
 apiVersion: v2
 type: application
 appVersion: "v0.0.23"
-version: 0.0.10
+version: 0.1.0
 name: pricewatcher
 description: A crypto token price-tracker using Coinbase APIs
 sources:
